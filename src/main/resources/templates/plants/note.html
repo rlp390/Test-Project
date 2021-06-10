@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="bg-dark">
+<div th:replace="fragments :: navbar"></div>
+
+<div class="border border-secondary rounded">
+    <div class="row m-2">
+        <div class="col-lg-10">
+            <h5 class="text-light" th:text="${plant.plantName}"></h5>
+            <p class="text-muted" th:text="${plant.plantLocation}"></p>
+            <p class="text-muted" th:text="${plant.plantDescription}"></p>
+            <th:block th:each="note : ${plantNotes}">
+                <th:block th:if="${note.plantId == plant.plantId}">
+                    <ul>
+                        <li class="text-muted" th:text="${note.note}"></li>
+                    </ul>
+                </th:block>
+            </th:block>
+        </div>
+        <div class="col-lg-2">
+            <div class="text-center">
+                <iframe src="https://giphy.com/embed/yFQ0ywscgobJK" class="align-middle" ></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form method="post" action="/plants/addnote" class="form-dark">
+    <div class="form-group form-dark">
+        <label class="form-dark" th:for="plantNote">Enter New Note</label>
+        <input class="form-control" name="plantNote" th:value="${plantNote}" />
+    </div>
+
+    <input hidden name="plantId" th:value="${plantId}" />
+
+    <input type="submit" value="Add New Note" />
+</form>
+
+
+</body>
+</html>
