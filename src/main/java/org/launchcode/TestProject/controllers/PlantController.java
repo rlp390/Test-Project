@@ -38,18 +38,19 @@ public class PlantController {
         model.addAttribute("plantName", "Enter plant name");
         model.addAttribute("plantDescription", "Enter plant description");
         model.addAttribute("plantLocation", "Enter plant location");
+        model.addAttribute("plantImg", "Enter plant image URL");
         return "plants/add";
     }
 
     @PostMapping("add")
-    public String processAddPlant(Model model, @RequestParam String plantName, @RequestParam String plantLocation, @RequestParam String plantDescription) {
-        Plants newPlant = new Plants(plantName,plantLocation, plantDescription);
+    public String processAddPlant(Model model, @RequestParam String plantName, @RequestParam String plantLocation, @RequestParam String plantDescription, @RequestParam String plantImg) {
+        Plants newPlant = new Plants(plantName,plantLocation, plantDescription, plantImg);
         plantRepository.save(newPlant);
         model.addAttribute("title", "El Loggo de Planto!");
         model.addAttribute("plants", plantRepository.findAll());
         model.addAttribute("plantNotes", plantNotesRepository.findAll());
 
-        return "plants/index";
+        return "redirect:../plants";
     }
 
     @GetMapping("addnote/{plantId}")

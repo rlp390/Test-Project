@@ -13,10 +13,11 @@ public class Plants {
 
     public Plants() { }
 
-    public Plants(String newName, String newLocation, String newDescription) {
+    public Plants(String newName, String newLocation, String newDescription, String newURL) {
         this.plantName = newName;
         this.plantLocation = newLocation;
         this.plantDescription = newDescription;
+        this.plantImageURL = newURL;
     }
 
     @Id
@@ -33,6 +34,9 @@ public class Plants {
 
     @Size(max=500, message="Description must be 500 characters or less.")
     private String plantDescription;
+
+    @NotBlank
+    private String plantImageURL;
 
     @OneToMany
     @JoinColumn(name="plantId")
@@ -57,4 +61,14 @@ public class Plants {
     public List<PlantNotes> getPlantNotes() {
         return plantNotes;
     }
+
+    public String getPlantImageURL() { return plantImageURL; }
+
+    public void setPlantName(String plantName) { this.plantName = plantName; }
+
+    public void setPlantLocation(String plantLocation) { this.plantLocation = plantLocation; }
+
+    public void setPlantDescription(String plantDescription) { this.plantDescription = plantDescription; }
+
+    public void setPlantImageURL(String plantImageURL) { this.plantImageURL = plantImageURL; }
 }
