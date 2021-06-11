@@ -5,27 +5,34 @@
 <body class="bg-dark">
 <div th:replace="fragments :: navbar"></div>
 
-<form method="post" class="form-dark">
-    <div class="form-group">
-        <label th:for="plantName">Plant Name</label>
-        <input class="form-control" name="plantName" th:value="${plantName}" />
-        <span th:errors="${plantName}" class="error"></span>
-    </div>
 
-    <div class="form-group">
-        <label th:for="plantLocation">Plant Location</label>
-        <input class="form-control" name="plantLocation" th:value="${plantLocation}" />
-        <span th:errors="${plantLocation}" class="error"></span>
-    </div>
+<div class="border border-secondary rounded">
+    <div class="row m-2">
+        <form method="post" class="form-dark">
+            <div class="form-group">
+                <label th:for="plantName">Plant Name</label>
+                <input class="form-control bg-secondary text-white" name="plantName" th:value="${plantName}" />
+                <span th:errors="${plantName}" class="error"></span>
+            </div>
 
-    <div class="form-group">
-        <label th:for="plantDescription">Plant Description</label>
-        <input class="form-control" name="plantDescription" th:value="${plantDescription}" />
-        <span th:errors="${plantDescription}" class="error"></span>
-    </div>
+            <div class="form-group">
+                <label th:for="plantLocation">Plant Location</label>
+                <input class="form-control bg-secondary text-white" name="plantLocation" th:value="${plantLocation}" >
+                <span th:errors="${plantLocation}" class="error"></span>
+            </div>
 
-    <input type="submit" value="Add New Plant" />
-</form>
+            <div class="form-group">
+                <label th:for="plantDescription">Plant Description</label>
+                <input class="form-control bg-secondary text-white" name="plantDescription" th:value="${plantDescription}" />
+                <span th:errors="${plantDescription}" class="error"></span>
+            </div>
+            <br>
+            <div class="text-center">
+                <input type="submit" value="Add New Plant" class="btn btn-secondary">
+            </div>
+        </form>
+    </div>
+</div>
 
 </body>
 </html>

@@ -4,9 +4,10 @@
 
     <!-- Bootstrap stylesheets and script -->
     <script src="jquery-3.5.1.min.js"></script>
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="undefined" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="undefined" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" integrity="undefined" crossorigin="anonymous">
+
 
     <title th:text="${title}" class="text-center">Default Title</title>
 </head>
@@ -26,11 +27,12 @@
     </div>
 </div>
 
+<!--  non dropdown navbar
 <nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="/">Test Project</a>
-    <!---<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
-    </button> -->
+    </button>
     <div class="collapse navbar-collapse" id="navbarText">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
@@ -48,6 +50,70 @@
         <span class="navbar-brand" th:text="${title}">Page Description</span>
     </ul>
 </nav>
+
+-->
+
+
+<!--  Drop down navbar  -->
+<nav th:fragment="navbar" class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <span class="h4"><a class="text-decoration-none text-white" href="/">Test Project</a></span>
+
+    <div class="collapse navbar-collapse" id="navbarText">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <div class="dropdown">
+                    <button class="btn btn-dark text-white dropdown-toggle " type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="h6">Plants</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="/plants">Plant List</a></li>
+                        <li><a class="dropdown-item" href="/plants/add">Add Plant</a></li>
+                        <li><a class="dropdown-item" href="#">Edit Plant (Not implemented)</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <div class="dropdown">
+                    <button class="btn btn-dark text-white dropdown-toggle " type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="h6">Plants</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                        <li><a class="dropdown-item" href="#">Project List (Not implemented)</a></li>
+                        <li><a class="dropdown-item" href="#">Add Project (Not implemented)</a></li>
+                        <li><a class="dropdown-item" href="#">Edit Project (Not implemented)</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li class="nav-item">
+                <div class="dropdown">
+                    <button class="btn btn-dark text-white dropdown-toggle " type="button" id="dropdownMenuButton3" data-bs-toggle="dropdown" aria-expanded="false">
+                        <span class="h6">Plants</span>
+                    </button>
+                    <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton3">
+                        <li><a class="dropdown-item" href="#">Recipe List (Not implemented)</a></li>
+                        <li><a class="dropdown-item" href="#">Add Recipe (Not implemented)</a></li>
+                        <li><a class="dropdown-item" href="#">Edit Recipe (Not implemented)</a></li>
+                    </ul>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <ul class="navbar-center">
+        <span class="h4 text-white" th:text="${title}">Page Description</span>
+    </ul>
+</nav>
+
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+        Dropdown button
+    </button>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+        <li><a class="dropdown-item" href="#">Action</a></li>
+        <li><a class="dropdown-item" href="#">Another action</a></li>
+        <li><a class="dropdown-item" href="#">Something else here</a></li>
+    </ul>
+</div>
+
 
 </body>
 </html>
