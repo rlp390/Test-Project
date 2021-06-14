@@ -37,4 +37,6 @@ public class PlantNotes {
     public void setNote(String note) {
         this.note = note;
     }
+
+    public int getId() { return id; }
 }
