@@ -6,43 +6,45 @@
 <body class="bg-dark">
 <div th:replace="fragments :: navbar"></div>
 
-<div class="border border-secondary rounded">
-    <div class="row m-2">
-        <form method="post" class="form-dark" action="/plants/updatePlant">
-            <input hidden name="plantId" th:value="${plant.plantId}"/>
-            <div class="form-group">
-                <label th:for="plantName">Plant Name</label>
-                <input class="form-control bg-secondary text-white" name="plantName" th:value="${plant.plantName}" />
-            </div>
-
-            <div class="form-group">
-                <label th:for="plantLocation">Plant Location</label>
-                <input class="form-control bg-secondary text-white" name="plantLocation" th:value="${plant.plantLocation}" >
-            </div>
-
-            <div class="form-group">
-                <label th:for="plantDescription">Plant Description</label>
-                <input class="form-control bg-secondary text-white" name="plantDescription" th:value="${plant.plantDescription}" />
-            </div>
-
-            <div class="form-group">
-                <label th:for="plantImg">URL for plant image - make sure it is correct!</label>
-                <input class="form-control bg-secondary text-white" name="plantImageURL" th:value="${plant.plantImageURL}" />
-            </div>
-
-            <br>
-            <div class="row m-2">
-                <div class="col-lg-5"></div>
-                <div class="col-lg-1 text-center">
-                    <input type="submit" value="Update Plant" class="btn btn-secondary">
+<div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10 border border-secondary rounded">
+        <div class="row m-2">
+            <form method="post" class="form-dark" action="/plants/updatePlant">
+                <input hidden name="plantId" th:value="${plant.plantId}"/>
+                <div class="form-group">
+                    <br>
+                    <label th:for="plantName" class="text-secondary">Plant Name</label>
+                    <input class="form-control bg-secondary text-white" name="plantName" th:value="${plant.plantName}" />
                 </div>
-                <div class="col-lg-1 text-center">
-                    <a href="/plants/edit" class="btn btn-secondary">Cancel Update</a>
+                <div class="form-group">
+                    <br>
+                    <label th:for="plantLocation" class="text-secondary">Plant Location</label>
+                    <input class="form-control bg-secondary text-white" name="plantLocation" th:value="${plant.plantLocation}" >
                 </div>
-                <div class="col-lg-5"></div>
-            </div>
-        </form>
+                <div class="form-group">
+                    <br>
+                    <label th:for="plantDescription" class="text-secondary">Plant Description</label>
+                    <input class="form-control bg-secondary text-white" name="plantDescription" th:value="${plant.plantDescription}" />
+                </div>
+                <div class="form-group">
+                    <br>
+                    <label th:for="plantImg" class="text-secondary">URL for plant image</label>
+                    <input class="form-control bg-secondary text-white" name="plantImageURL" th:value="${plant.plantImageURL}" />
+                </div>
+                <br>
+                <div class="row m-2">
+                    <div class="col-lg-5"></div>
+                    <div class="col-lg-2 text-center">
+                        <input type="submit" value="Update Plant" class="btn btn-secondary">
+                        <a href="/plants/edit" class="btn btn-secondary">Cancel</a>
+                    </div>
+                    <div class="col-lg-5"></div>
+                </div>
+            </form>
+        </div>
     </div>
+    <div class="col-lg-1"></div>
 </div>
 
 </body>

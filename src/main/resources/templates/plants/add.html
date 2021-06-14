@@ -6,35 +6,47 @@
 <div th:replace="fragments :: navbar"></div>
 
 
-<div class="border border-secondary rounded">
-    <div class="row m-2">
-        <form method="post" class="form-dark">
-            <div class="form-group">
-                <label th:for="plantName">Plant Name</label>
-                <input class="form-control bg-secondary text-white" name="plantName" th:value="${plantName}" />
+<div>
+    <form method="post" class="form-dark">
+        <div class="row m-3">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <div class="row border border-secondary rounded">
+                    <div class="form-group">
+                        <br>
+                        <label th:for="plantName" class="text-secondary">Plant Name</label>
+                        <input class="form-control bg-secondary text-white" name="plantName" th:value="${plantName}" />
+                    </div>
+                    <div class="form-group">
+                        <br>
+                        <label th:for="plantLocation" class="text-secondary">Plant Location</label>
+                        <input class="form-control bg-secondary text-white" name="plantLocation" th:value="${plantLocation}" >
+                    </div>
+                    <div class="form-group">
+                        <br>
+                        <label th:for="plantDescription" class="text-secondary">Plant Description</label>
+                        <input class="form-control bg-secondary text-white" name="plantDescription" th:value="${plantDescription}" />
+                    </div>
+                    <div class="form-group">
+                        <br>
+                        <label th:for="plantImg" class="text-secondary">URL for plant image</label>
+                        <input class="form-control bg-secondary text-white" name="plantImg" th:value="${plantImg}" />
+                    </div>
+                    <div class="row m-3">
+                        <div class="col-lg-5"></div>
+                        <div class="col-lg-1 text-center">
+                            <input type="submit" value="Save Plant" class="btn btn-secondary">
+                        </div>
+                        <div class="col-lg-1 text-center">
+                            <a href="/plants" class="btn btn-secondary">Cancel</a>
+                        </div>
+                        <div class="col-lg-5"></div>
+                    </div>
+                </div>
             </div>
-
-            <div class="form-group">
-                <label th:for="plantLocation">Plant Location</label>
-                <input class="form-control bg-secondary text-white" name="plantLocation" th:value="${plantLocation}" >
-            </div>
-
-            <div class="form-group">
-                <label th:for="plantDescription">Plant Description</label>
-                <input class="form-control bg-secondary text-white" name="plantDescription" th:value="${plantDescription}" />
-            </div>
-
-            <div class="form-group">
-                <label th:for="plantImg">URL for plant image - make sure it is correct!</label>
-                <input class="form-control bg-secondary text-white" name="plantImg" th:value="${plantImg}" />
-            </div>
-
-            <br>
-            <div class="text-center">
-                <input type="submit" value="Save Updates" class="btn btn-secondary">
-            </div>
-        </form>
-    </div>
+            <div class="=col-lg-1"></div>
+        </div>
+    </form>
 </div>
 
 </body>
