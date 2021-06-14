@@ -12,30 +12,26 @@
             <div class="form-group">
                 <label th:for="plantName">Plant Name</label>
                 <input class="form-control bg-secondary text-white" name="plantName" th:value="${plantName}" />
-                <span th:errors="${plantName}" class="error"></span>
             </div>
 
             <div class="form-group">
                 <label th:for="plantLocation">Plant Location</label>
                 <input class="form-control bg-secondary text-white" name="plantLocation" th:value="${plantLocation}" >
-                <span th:errors="${plantLocation}" class="error"></span>
             </div>
 
             <div class="form-group">
                 <label th:for="plantDescription">Plant Description</label>
                 <input class="form-control bg-secondary text-white" name="plantDescription" th:value="${plantDescription}" />
-                <span th:errors="${plantDescription}" class="error"></span>
             </div>
 
             <div class="form-group">
                 <label th:for="plantImg">URL for plant image - make sure it is correct!</label>
                 <input class="form-control bg-secondary text-white" name="plantImg" th:value="${plantImg}" />
-                <span th:errors="${plantImg}" class="error"></span>
             </div>
 
             <br>
             <div class="text-center">
-                <input type="submit" value="Add New Plant" class="btn btn-secondary">
+                <input type="submit" value="Save Updates" class="btn btn-secondary">
             </div>
         </form>
     </div>

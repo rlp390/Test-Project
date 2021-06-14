@@ -71,4 +71,8 @@ public class Plants {
     public void setPlantDescription(String plantDescription) { this.plantDescription = plantDescription; }
 
     public void setPlantImageURL(String plantImageURL) { this.plantImageURL = plantImageURL; }
+
+    public void setPlantId(int plantId) {
+        this.plantId = plantId;
+    }
 }

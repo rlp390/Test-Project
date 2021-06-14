@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="bg-dark">
+<div th:replace="fragments :: navbar"></div>
+
+<form action="/plants/edit" method="post" name="editPlants">
+    <input hidden name="plantId" id="plantIds">
+    <th:block th:each="plant : ${plants}">
+        <div class="row align-items-center">
+            <div class="col-sm text-center">
+                <input type="submit" class="btn btn-secondary border-white" value="Edit" th:onclick="'setButtonValue(' + ${plant.plantId} + ')'">
+            </div>
+            <div class="col-sm-10 border border-secondary rounded">
+                <div class="row m-2 align-items-center">
+                    <div class="col-sm-9">
+                        <h5 class="text-light" th:text="${plant.plantName}"></h5>
+                        <p class="text-muted" th:text="${plant.plantLocation}"></p>
+                        <p class="text-muted" th:text="${plant.plantDescription}"></p>
+                    </div>
+                    <div class="col-sm-3 text-right">
+                        <img th:src="${plant.plantImageURL}" height="300" width="300" />
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm">
+            </div>
+        </div>
+        <br>
+        <br>
+    </th:block>
+</form>
+
+
+
+</body>
+</html>

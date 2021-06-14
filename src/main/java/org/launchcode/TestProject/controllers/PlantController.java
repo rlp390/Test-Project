@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
+import javax.swing.text.html.Option;
+import javax.validation.Valid;
 import javax.websocket.server.PathParam;
 import java.util.Optional;
 
@@ -76,4 +78,43 @@ public class PlantController {
 
         return "redirect:../plants";
     }
+
+    @GetMapping("edit")
+    public String editPlantsHome(Model model) {
+        model.addAttribute("title", "El Edito de Planto!");
+        model.addAttribute("plants", plantRepository.findAll());
+
+        return "plants/edit";
+    }
+
+    @PostMapping("edit")
+    public String processEditPlants(Model model, @RequestParam int plantId) {
+        Optional plant = plantRepository.findById(plantId);
+        Plants foundPlant = (Plants) plant.get();
+
+        model.addAttribute("title", "El Updatio de Planto!");
+        model.addAttribute("plant", foundPlant);
+
+        return "/plants/updatePlant";
+    }
+
+    @PostMapping("updatePlant")
+    public String processPlantUpdate(Model model, @ModelAttribute @Valid Plants plant, @RequestParam int plantId) {
+        Optional optional = plantRepository.findById(plantId);
+        Plants persisted = (Plants) optional.get();
+
+        persisted.setPlantDescription(plant.getPlantDescription());
+        persisted.setPlantImageURL(plant.getPlantImageURL());
+        persisted.setPlantLocation(plant.getPlantLocation());
+        persisted.setPlantName(plant.getPlantName());
+
+        plantRepository.save(persisted);
+
+        model.addAttribute("title", "El Loggo de Planto!");
+        model.addAttribute("plants", plantRepository.findAll());
+        model.addAttribute("plantNotes", plantNotesRepository.findAll());
+
+        return "redirect:../plants/edit";
+    }
+
 }
