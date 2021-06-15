@@ -1,6 +1,6 @@
-package org.launchcode.TestProject.models.data;
+package org.launchcode.TestProject.models.data.plants;
 
-import org.launchcode.TestProject.models.Plants;
+import org.launchcode.TestProject.models.Plants.Plants;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

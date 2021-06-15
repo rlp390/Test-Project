@@ -1,4 +1,4 @@
-package org.launchcode.TestProject.models;
+package org.launchcode.TestProject.models.Plants;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

@@ -10,7 +10,7 @@
     <th:block th:each="plant : ${plants}">
         <div class="row align-items-center">
             <div class="col-sm text-center">
-                <input type="submit" class="btn btn-secondary border-white" value="Edit" th:onclick="'setButtonValue(' + ${plant.plantId} + ')'">
+                <input type="submit" class="btn btn-secondary" value="Edit" th:onclick="'setButtonValue(' + ${plant.plantId} + ')'">
             </div>
             <div class="col-sm-10 border border-secondary rounded">
                 <div class="row m-2 align-items-center">

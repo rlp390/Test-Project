@@ -1,11 +1,10 @@
-package org.launchcode.TestProject.models;
+package org.launchcode.TestProject.models.Plants;
 
 import java.util.ArrayList;
 import javax.persistence.*;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import java.util.Date;
 import java.util.List;
 
 @Entity

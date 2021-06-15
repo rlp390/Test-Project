@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="bg-dark">
+<div th:replace="fragments :: navbar"></div>
+
+<div>
+    <form method="post" class="form-dark">
+        <div class="row m-3">
+            <div class="col-lg-1"></div>
+            <div class="col-lg-10">
+                <div class="row border border-secondary rounded">
+                    <div  th:if="${warning != 'new'}"  class="text-center text-warning">
+                        <br>
+                        <span th:text="${warning}"></span>
+                    </div>
+                    <div class="form-group">
+                        <br>
+                        <label th:for="ingredientName" class="text-secondary">Ingredient Name</label>
+                        <input class="form-control bg-secondary text-white" name="ingredientName" th:value="${ingredientName}" />
+                    </div>
+                    <div class="form-group">
+                        <br>
+                        <label th:for="ingredientDescription" class="text-secondary">Ingredient Description</label>
+                        <input class="form-control bg-secondary text-white" name="ingredientDescription" th:value="${ingredientDescription}" >
+                    </div>
+                    <div class="form-group">
+                        <br>
+                        <label th:for="ingredientType" class="text-secondary">Ingredient Type</label>
+                        <select class="form-select bg-secondary text-white" name="ingredientType">
+                            <th:block th:each="ingredientType : ${ingredientTypes}">
+                                <option th:value="${ingredientType}" th:text="${ingredientType.displayName}"></option>
+                            </th:block>
+                        </select>
+                    </div>
+                    <div class="row m-3">
+                        <div class="col-lg-5"></div>
+                        <div class="col-lg-1 text-center">
+                            <input type="submit" value="Save Ingredient" class="btn btn-secondary">
+                        </div>
+                        <div class="col-lg-1 text-center">
+                            <a href="/recipes" class="btn btn-secondary">Cancel</a>
+                        </div>
+                        <div class="col-lg-5"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="=col-lg-1"></div>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
