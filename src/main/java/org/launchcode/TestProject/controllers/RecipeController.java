@@ -10,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("recipes")
@@ -83,5 +81,52 @@ public class RecipeController {
         model.addAttribute("warning","Ingredient added!  Enter another Ingredient?");
 
         return "/recipes/addIngredient";
+    }
+
+    @GetMapping("editIngredient")
+    public String editIngredientHome(Model model) {
+        model.addAttribute("title", "El Edito de Ingredientio!");
+        model.addAttribute("ingredients", ingredientRepository.findAll());
+
+        return "/recipes/editIngredient";
+    }
+
+    @PostMapping("editIngredient")
+    public String processEditIngredient(Model model, @RequestParam int ingredientId) {
+        Optional<Ingredient> option = ingredientRepository.findById(ingredientId);
+        Ingredient ingredient = (Ingredient) option.get();
+
+        model.addAttribute("ingredientTypes", IngredientType.values());
+        model.addAttribute("ingredient", ingredient);
+        model.addAttribute("title","El Updatio de Ingredientio!");
+
+        return "/recipes/updateIngredient";
+    }
+
+    @PostMapping("updateIngredient")
+    public String processUpdateIngredient(Model model, @RequestParam String ingredientName, @RequestParam String ingredientDescription, @RequestParam IngredientType ingredientType, @RequestParam int ingredientId) {
+        Optional<Ingredient> option = ingredientRepository.findById(ingredientId);
+        Ingredient ingredient = (Ingredient) option.get();
+
+        ingredient.setIngredientName(ingredientName);
+        ingredient.setIngredientType(ingredientType);
+        ingredient.setIngredientDescription(ingredientDescription);
+
+        ingredientRepository.save(ingredient);
+
+        model.addAttribute("title", "El Edito de Ingredientio!");
+        model.addAttribute("ingredients", ingredientRepository.findAll());
+
+        return "redirect:../recipes/editIngredient";
+    }
+
+    @GetMapping("deleteIngredient/{id}")
+    public String processDeleteIngredient(Model model, @PathVariable int id) {
+        ingredientRepository.deleteById(id);
+
+        model.addAttribute("title", "El Edito de Ingredientio!");
+        model.addAttribute("ingredients", ingredientRepository.findAll());
+
+        return "redirect:/recipes/editIngredient";
     }
 }

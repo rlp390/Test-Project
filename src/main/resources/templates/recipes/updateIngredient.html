@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+
+<body class="bg-dark">
+<div th:replace="fragments :: navbar"></div>
+
+<div class="row">
+    <div class="col-lg-1"></div>
+    <div class="col-lg-10 border border-secondary rounded">
+        <div class="row m-2">
+            <form method="post" class="form-dark" action="/recipes/updateIngredient">
+                <input hidden name="ingredientId" th:value="${ingredient.ingredientId}"/>
+                <div class="form-group">
+                    <br>
+                    <label th:for="ingredientName" class="text-secondary">Ingredient Name</label>
+                    <input class="form-control bg-secondary text-white" name="ingredientName" th:value="${ingredient.ingredientName}" />
+                </div>
+                <div class="form-group">
+                    <br>
+                    <label th:for="ingredientDescription" class="text-secondary">Ingredient Description</label>
+                    <input class="form-control bg-secondary text-white" name="ingredientDescription" th:value="${ingredient.ingredientDescription}" >
+                </div>
+                <div class="form-group">
+                    <br>
+                    <label th:for="ingredientType" class="text-secondary">Ingredient Type</label>
+                    <select class="form-select bg-secondary text-white" name="ingredientType">
+                        <option th:each="ingredientType : ${ingredientTypes}" th:value="${ingredientType}" th:text="${ingredientType.displayName}"></option>
+                    </select>
+                </div>
+                <br>
+                <div class="row m-2">
+                    <div class="col-lg-4"></div>
+                    <div class="col-lg-4 text-center">
+                        <input type="submit" value="Update Ingredient" class="btn btn-secondary">
+                        <a href="/recipes/editIngredient" class="btn btn-secondary">Cancel</a>
+                    <div class="col-lg-4"></div>
+                    </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-lg-1"></div>
+</div>
+</body>
+</html>
