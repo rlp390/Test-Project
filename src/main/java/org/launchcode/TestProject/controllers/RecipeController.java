@@ -3,9 +3,11 @@ package org.launchcode.TestProject.controllers;
 
 import org.launchcode.TestProject.models.Recipes.Enums.IngredientType;
 import org.launchcode.TestProject.models.Recipes.Ingredient;
+import org.launchcode.TestProject.models.Recipes.Recipe;
 import org.launchcode.TestProject.models.data.recipes.IngredientRepository;
 import org.launchcode.TestProject.models.data.recipes.RecipeIngredientRepository;
 import org.launchcode.TestProject.models.data.recipes.RecipeRepository;
+import org.launchcode.TestProject.models.data.recipes.RecipeStepsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,9 @@ public class RecipeController {
 
     @Autowired
     private RecipeRepository recipeRepository;
+
+    @Autowired
+    private RecipeStepsRepository recipeStepsRepository;
 
     @RequestMapping("")
     private String recipes(Model model) {
@@ -128,5 +133,25 @@ public class RecipeController {
         model.addAttribute("ingredients", ingredientRepository.findAll());
 
         return "redirect:/recipes/editIngredient";
+    }
+
+    @GetMapping("create")
+    public String createRecipeHome(Model model) {
+        model.addAttribute("title","El Creatio de New Recipio!");
+        model.addAttribute("recipeName", "Enter recipe name");
+        model.addAttribute("recipeDesc", "Enter recipe description");
+
+        return "/recipes/createRecipe";
+    }
+
+    @PostMapping("create")
+    public String processCreateRecipe(Model model, @RequestParam String recipeName, @RequestParam String recipeDesc) {
+        Recipe recipe = new Recipe(recipeName, recipeDesc);
+        recipeRepository.save(recipe);
+
+        model.addAttribute("title", "El Recipio de Addo Ingredientio!");
+        model.addAttribute("recipe", recipe);
+
+        return "/recipes/addRecipeIngredients";
     }
 }

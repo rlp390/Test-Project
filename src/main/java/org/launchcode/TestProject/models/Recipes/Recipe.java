@@ -17,8 +17,32 @@ public class Recipe {
     @JoinColumn(name="recipeId")
     private List<RecipeIngredient> ingredients = new ArrayList<>();
 
-    @ElementCollection
-    @CollectionTable(name="recipeSteps", joinColumns =@JoinColumn(name="recipeId"))
-    @Column(name="recipeSteps")
-    private List<String> recipeSteps = new ArrayList<>();
+    @OneToMany
+    @JoinColumn(name="recipeId")
+    private List<RecipeSteps> recipeSteps = new ArrayList<>();
+
+    private String recipeName;
+
+    private String recipeDescription;
+
+    public Recipe(String recipeName, String recipeDescription) {
+        this.recipeName = recipeName;
+        this.recipeDescription = recipeDescription;
+    }
+
+    public String getRecipeName() {
+        return recipeName;
+    }
+
+    public void setRecipeName(String recipeName) {
+        this.recipeName = recipeName;
+    }
+
+    public String getRecipeDescription() {
+        return recipeDescription;
+    }
+
+    public void setRecipeDescription(String recipeDescription) {
+        this.recipeDescription = recipeDescription;
+    }
 }
