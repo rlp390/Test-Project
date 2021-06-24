@@ -18,7 +18,7 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
-public class AuthenticationController {
+public class AuthenticationController extends AbstractController{
 
     @Autowired
     UserRepository userRepository;
@@ -45,9 +45,11 @@ public class AuthenticationController {
     }
 
     @GetMapping("/register")
-    public String displayRegistrationForm(Model model) {
+    public String displayRegistrationForm(Model model, HttpServletRequest request) {
         model.addAttribute(new RegisterFormDTO());
         model.addAttribute("title", "Register");
+        model.addAttribute("username", returnLoginName(request));
+        model.addAttribute("login", returnLoginURL(request));
         return "register";
     }
 
@@ -55,6 +57,9 @@ public class AuthenticationController {
     public String processRegistrationForm(@ModelAttribute @Valid RegisterFormDTO registerFormDTO,
                                           Errors errors, HttpServletRequest request,
                                           Model model) {
+
+        model.addAttribute("username", returnLoginName(request));
+        model.addAttribute("login", returnLoginURL(request));
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Register");
@@ -85,9 +90,11 @@ public class AuthenticationController {
     }
 
     @GetMapping("/login")
-    public String displayLoginForm(Model model) {
+    public String displayLoginForm(Model model, HttpServletRequest request) {
         model.addAttribute(new LoginFormDTO());
         model.addAttribute("title", "Log In");
+        model.addAttribute("username", returnLoginName(request));
+        model.addAttribute("login", returnLoginURL(request));
         return "login";
     }
 
@@ -95,6 +102,8 @@ public class AuthenticationController {
     public String processLoginForm(@ModelAttribute @Valid LoginFormDTO loginFormDTO,
                                    Errors errors, HttpServletRequest request,
                                    Model model) {
+        model.addAttribute("username", returnLoginName(request));
+        model.addAttribute("login", returnLoginURL(request));
 
         if (errors.hasErrors()) {
             model.addAttribute("title", "Log In");
@@ -122,10 +131,8 @@ public class AuthenticationController {
         return "redirect:";
     }
 
-    @GetMapping("/logout")
+    @GetMapping("/Logout")
     public String logout(HttpServletRequest request){
-        System.out.println("ID:" + request.);
-
         request.getSession().invalidate();
 
         return "redirect:/login";

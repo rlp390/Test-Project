@@ -1,14 +1,20 @@
 package org.launchcode.TestProject.models.User;
 
+import org.launchcode.TestProject.controllers.AuthenticationController;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.constraints.NotNull;
 
 @Entity
 public class User {
+
+
 
     private static final BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 
@@ -38,4 +44,6 @@ public class User {
     public String getUsername() {
         return username;
     }
+
+
 }

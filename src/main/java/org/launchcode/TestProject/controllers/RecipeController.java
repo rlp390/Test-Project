@@ -14,12 +14,13 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
 @RequestMapping("recipes")
-public class RecipeController {
+public class RecipeController extends AbstractController {
 
     @Autowired
     private IngredientRepository ingredientRepository;
@@ -34,8 +35,10 @@ public class RecipeController {
     private RecipeStepsRepository recipeStepsRepository;
 
     @RequestMapping("")
-    private String recipes(Model model) {
+    private String recipes(Model model, HttpServletRequest request) {
         model.addAttribute("title", "El Loggo de Recipio!");
+        model.addAttribute("username", returnLoginName(request));
+        model.addAttribute("login", returnLoginURL(request));
         //model.addAttribute("ingredients", ingredientRepository.findAll());
         //model.addAttribute("recipeIngredients", recipeIngredientRepository.findAll());
         //model.addAttribute("recipes", recipeRepository.findAll());
@@ -44,8 +47,10 @@ public class RecipeController {
     }
 
     @GetMapping("addIngredient")
-    private String addIngredientHome(Model model) {
+    private String addIngredientHome(Model model, HttpServletRequest request) {
         model.addAttribute("title", "El Addo de Ingredientio!");
+        model.addAttribute("username", returnLoginName(request));
+        model.addAttribute("login", returnLoginURL(request));
         model.addAttribute("ingredientTypes", IngredientType.values());
         model.addAttribute("ingredientName", "Enter ingredient name");
         model.addAttribute("ingredientDescription", "Enter ingredient description");
@@ -56,7 +61,7 @@ public class RecipeController {
 
     @PostMapping("addIngredient")
     private String processAddIngredient(Model model, @RequestParam IngredientType ingredientType, @RequestParam String ingredientName,
-                                        @RequestParam String ingredientDescription) {
+                                        @RequestParam String ingredientDescription, HttpServletRequest request) {
         Iterable<Ingredient> ingredients = ingredientRepository.findAll();
 
         // CHECK TO SEE IF INGREDIENT ALREADY EXISTS
@@ -66,6 +71,8 @@ public class RecipeController {
 
                 System.out.println("INGREDIENT ALREADY EXISTS");
                 model.addAttribute("title", "El Addo de Ingredientio!");
+                model.addAttribute("username", returnLoginName(request));
+                model.addAttribute("login", returnLoginURL(request));
                 model.addAttribute("ingredientTypes", IngredientType.values());
                 model.addAttribute("ingredientName", ingredientName);
                 model.addAttribute("ingredientDescription", ingredientDescription);
@@ -80,6 +87,8 @@ public class RecipeController {
         ingredientRepository.save(newIngredient);
 
         model.addAttribute("title", "El Addo de Ingredientio!");
+        model.addAttribute("username", returnLoginName(request));
+        model.addAttribute("login", returnLoginURL(request));
         model.addAttribute("ingredientTypes", IngredientType.values());
         model.addAttribute("ingredientName", "Enter ingredient name");
         model.addAttribute("ingredientDescription", "Enter ingredient description");
@@ -89,27 +98,32 @@ public class RecipeController {
     }
 
     @GetMapping("editIngredient")
-    public String editIngredientHome(Model model) {
+    public String editIngredientHome(Model model, HttpServletRequest request) {
         model.addAttribute("title", "El Edito de Ingredientio!");
+        model.addAttribute("username", returnLoginName(request));
+        model.addAttribute("login", returnLoginURL(request));
         model.addAttribute("ingredients", ingredientRepository.findAll());
 
         return "/recipes/editIngredient";
     }
 
     @PostMapping("editIngredient")
-    public String processEditIngredient(Model model, @RequestParam int ingredientId) {
+    public String processEditIngredient(Model model, @RequestParam int ingredientId, HttpServletRequest request) {
         Optional<Ingredient> option = ingredientRepository.findById(ingredientId);
         Ingredient ingredient = (Ingredient) option.get();
 
         model.addAttribute("ingredientTypes", IngredientType.values());
         model.addAttribute("ingredient", ingredient);
         model.addAttribute("title","El Updatio de Ingredientio!");
+        model.addAttribute("username", returnLoginName(request));
+        model.addAttribute("login", returnLoginURL(request));
 
         return "/recipes/updateIngredient";
     }
 
     @PostMapping("updateIngredient")
-    public String processUpdateIngredient(Model model, @RequestParam String ingredientName, @RequestParam String ingredientDescription, @RequestParam IngredientType ingredientType, @RequestParam int ingredientId) {
+    public String processUpdateIngredient(Model model, @RequestParam String ingredientName, @RequestParam String ingredientDescription,
+                                          @RequestParam IngredientType ingredientType, @RequestParam int ingredientId, HttpServletRequest request) {
         Optional<Ingredient> option = ingredientRepository.findById(ingredientId);
         Ingredient ingredient = (Ingredient) option.get();
 
@@ -120,24 +134,30 @@ public class RecipeController {
         ingredientRepository.save(ingredient);
 
         model.addAttribute("title", "El Edito de Ingredientio!");
+        model.addAttribute("username", returnLoginName(request));
+        model.addAttribute("login", returnLoginURL(request));
         model.addAttribute("ingredients", ingredientRepository.findAll());
 
         return "redirect:../recipes/editIngredient";
     }
 
     @GetMapping("deleteIngredient/{id}")
-    public String processDeleteIngredient(Model model, @PathVariable int id) {
+    public String processDeleteIngredient(Model model, @PathVariable int id, HttpServletRequest request) {
         ingredientRepository.deleteById(id);
 
         model.addAttribute("title", "El Edito de Ingredientio!");
+        model.addAttribute("username", returnLoginName(request));
+        model.addAttribute("login", returnLoginURL(request));
         model.addAttribute("ingredients", ingredientRepository.findAll());
 
         return "redirect:/recipes/editIngredient";
     }
 
     @GetMapping("create")
-    public String createRecipeHome(Model model) {
+    public String createRecipeHome(Model model, HttpServletRequest request) {
         model.addAttribute("title","El Creatio de New Recipio!");
+        model.addAttribute("username", returnLoginName(request));
+        model.addAttribute("login", returnLoginURL(request));
         model.addAttribute("recipeName", "Enter recipe name");
         model.addAttribute("recipeDesc", "Enter recipe description");
 
@@ -145,11 +165,13 @@ public class RecipeController {
     }
 
     @PostMapping("create")
-    public String processCreateRecipe(Model model, @RequestParam String recipeName, @RequestParam String recipeDesc) {
+    public String processCreateRecipe(Model model, @RequestParam String recipeName, @RequestParam String recipeDesc, HttpServletRequest request) {
         Recipe recipe = new Recipe(recipeName, recipeDesc);
         recipeRepository.save(recipe);
 
         model.addAttribute("title", "El Recipio de Addo Ingredientio!");
+        model.addAttribute("username", returnLoginName(request));
+        model.addAttribute("login", returnLoginURL(request));
         model.addAttribute("recipe", recipe);
 
         return "/recipes/addRecipeIngredients";
