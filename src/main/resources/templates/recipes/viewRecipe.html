@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="bg-dark">
+<div th:replace="fragments :: navbar"></div>
+
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+        <div class="text-center">
+            <h1 class="text-white"  th:text="${recipe.recipeName}"></h1>
+            <h4 class="text-white" th:text="${recipe.recipeDescription}"></h4>
+        </div>
+        <div class="row">
+            <div class="col-sm-3 border border-white rounded m-2">
+                <p class="text-white" th:each="ingredient : ${recipeIngredients}" th:text="${ingredient.ingredientAmount + ' ' + ingredient.recipeUOM.displayName + ' ' + ingredient.ingredientName}"></p>
+            </div>
+            <div class="col border border-white rounded m-2">
+                <p class="text-white" >Recipe Steps go in this div!</p>
+            </div>
+        </div>
+
+    </div>
+    <div class="col-sm-1"></div>
+</div>
+
+</body>
+</html>

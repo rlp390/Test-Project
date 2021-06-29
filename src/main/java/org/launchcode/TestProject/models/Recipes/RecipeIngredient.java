@@ -5,6 +5,8 @@ import org.launchcode.TestProject.models.Recipes.Enums.RecipeUOM;
 
 import javax.persistence.*;
 import javax.persistence.criteria.CriteriaBuilder;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class RecipeIngredient {
@@ -60,4 +62,6 @@ public class RecipeIngredient {
     public void setIngredientUOM(RecipeUOM ingredientUOM) {
         this.ingredientUOM = ingredientUOM;
     }
+
+
 }

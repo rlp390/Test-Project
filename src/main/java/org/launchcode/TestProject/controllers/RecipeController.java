@@ -6,6 +6,7 @@ import org.launchcode.TestProject.models.Recipes.Enums.RecipeUOM;
 import org.launchcode.TestProject.models.Recipes.Ingredient;
 import org.launchcode.TestProject.models.Recipes.Recipe;
 import org.launchcode.TestProject.models.Recipes.RecipeIngredient;
+import org.launchcode.TestProject.models.Recipes.ViewRecipeIngredientList;
 import org.launchcode.TestProject.models.data.recipes.IngredientRepository;
 import org.launchcode.TestProject.models.data.recipes.RecipeIngredientRepository;
 import org.launchcode.TestProject.models.data.recipes.RecipeRepository;
@@ -18,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
+import javax.swing.text.html.Option;
 import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -203,5 +205,23 @@ public class RecipeController extends AbstractController {
         recipeIngredientRepository.save(recipeIngredient);
 
         return "redirect:/recipes/RecipeIngredients/" + recipeId;
+    }
+
+    @GetMapping("viewRecipe/{recipeId}")
+    public String viewRecipeHome(@PathVariable int recipeId, Model model,HttpServletRequest request) {
+
+        Optional optionalRecipe = recipeRepository.findById(recipeId);
+        Recipe recipe = (Recipe) optionalRecipe.get();
+
+        List<ViewRecipeIngredientList> recipeIngredients = ViewRecipeIngredientList.findRecipeIngredientsByRecipeId(recipeId, recipeIngredientRepository.findAll(),
+                ingredientRepository.findAll());
+
+        model.addAttribute("title", "El Recipio de Addo Ingredientio!");
+        model.addAttribute("username", returnLoginName(request));
+        model.addAttribute("login", returnLoginURL(request));
+        model.addAttribute("recipe", recipe);
+        model.addAttribute("recipeIngredients",recipeIngredients);
+
+        return "/recipes/viewRecipe";
     }
 }
