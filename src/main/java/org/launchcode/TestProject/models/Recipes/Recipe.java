@@ -30,6 +30,8 @@ public class Recipe {
         this.recipeDescription = recipeDescription;
     }
 
+    public Recipe() {}
+
     public String getRecipeName() {
         return recipeName;
     }
@@ -45,4 +47,6 @@ public class Recipe {
     public void setRecipeDescription(String recipeDescription) {
         this.recipeDescription = recipeDescription;
     }
+
+    public int getRecipeId() { return recipeId;  }
 }

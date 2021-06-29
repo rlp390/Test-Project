@@ -2,8 +2,10 @@ package org.launchcode.TestProject.controllers;
 
 
 import org.launchcode.TestProject.models.Recipes.Enums.IngredientType;
+import org.launchcode.TestProject.models.Recipes.Enums.RecipeUOM;
 import org.launchcode.TestProject.models.Recipes.Ingredient;
 import org.launchcode.TestProject.models.Recipes.Recipe;
+import org.launchcode.TestProject.models.Recipes.RecipeIngredient;
 import org.launchcode.TestProject.models.data.recipes.IngredientRepository;
 import org.launchcode.TestProject.models.data.recipes.RecipeIngredientRepository;
 import org.launchcode.TestProject.models.data.recipes.RecipeRepository;
@@ -14,7 +16,11 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -41,7 +47,7 @@ public class RecipeController extends AbstractController {
         model.addAttribute("login", returnLoginURL(request));
         //model.addAttribute("ingredients", ingredientRepository.findAll());
         //model.addAttribute("recipeIngredients", recipeIngredientRepository.findAll());
-        //model.addAttribute("recipes", recipeRepository.findAll());
+        model.addAttribute("recipes", recipeRepository.findAll());
 
         return "recipes/index";
     }
@@ -169,11 +175,33 @@ public class RecipeController extends AbstractController {
         Recipe recipe = new Recipe(recipeName, recipeDesc);
         recipeRepository.save(recipe);
 
+        return "redirect:/recipes/RecipeIngredients/" + recipe.getRecipeId();
+    }
+
+    @GetMapping("RecipeIngredients/{recipeId}")
+    public String recipeIngredientHome(Model model, @PathVariable int recipeId, HttpServletRequest request) {
+
+        Optional<Recipe> optionalRecipe = recipeRepository.findById(recipeId);
+        Recipe recipe = (Recipe) optionalRecipe.get();
+
+        List<Ingredient> ingredients = Ingredient.sortIngredientsList(ingredientRepository.findAll());
+
         model.addAttribute("title", "El Recipio de Addo Ingredientio!");
         model.addAttribute("username", returnLoginName(request));
         model.addAttribute("login", returnLoginURL(request));
         model.addAttribute("recipe", recipe);
+        model.addAttribute("UOM", RecipeUOM.values());
+        model.addAttribute("ingredients", ingredients);
 
-        return "/recipes/addRecipeIngredients";
+        return "/recipes/RecipeIngredients";
+    }
+
+    @PostMapping("RecipeIngredients/{recipeId}")
+    public String processAddRecipeIngredient(@PathVariable int recipeId, @RequestParam Float ingredientAmount, @RequestParam RecipeUOM ingredientUOM,
+                                             @RequestParam int ingredientId) {
+        RecipeIngredient recipeIngredient = new RecipeIngredient(recipeId, ingredientId, ingredientAmount.toString(), ingredientUOM);
+        recipeIngredientRepository.save(recipeIngredient);
+
+        return "redirect:/recipes/RecipeIngredients/" + recipeId;
     }
 }

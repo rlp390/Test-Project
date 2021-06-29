@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org/">
+<head th:replace="fragments :: head"></head>
+
+<body class="bg-dark">
+<div th:replace="fragments :: navbar"></div>
+
+
+<div class="row align-items-center">
+    <div class="col-sm text-center">
+    </div>
+    <div class="col-sm-10 border border-secondary rounded text-center">
+        <h1 class="text-warning" th:text="${recipe.recipeName}">default</h1>
+        <h3 class="text-warning" th:text="${recipe.recipeDescription}">deafult</h3>
+        <br>
+        <form method="post">
+            <div class="form-group">
+                <label for="ingredientAmount" class="text-secondary">Ingredient Amount</label>
+                <input type="number"  step="any" class="form-control bg-secondary text-white" id="ingredientAmount" name="ingredientAmount"/>
+                <br>
+            </div>
+            <div class="form-group">
+                <label for="ingredientUOM" class="text-secondary">Ingredient UOM</label>
+                <select class="form-control bg-secondary text-white" id="ingredientUOM" name="ingredientUOM">
+                    <option th:each="U : ${UOM}" th:value="${U}" th:text="${U.displayName}"></option>
+                </select>
+                <br>
+            </div>
+            <div class="form-group">
+                <label for="ingredientId" class="text-secondary">Ingredient</label>
+                <select class="form-control bg-secondary text-white" id="ingredientId" name="ingredientId">
+                    <option th:each="ingredient : ${ingredients}" th:value="${ingredient.ingredientId}" th:text="${ingredient.ingredientName}"></option>
+                </select>
+                <br>
+            </div>
+            <div class="text-center">
+                <input type="submit" value="Add Ingredient" class="btn btn-secondary">
+            </div>
+            <br>
+        </form>
+    </div>
+    <div class="col-sm text-center">
+    </div>
+</div>
+</body>
+</html>

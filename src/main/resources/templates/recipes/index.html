@@ -4,7 +4,19 @@
 
 <body class="bg-dark">
 <div th:replace="fragments :: navbar"></div>
-
+<div th:each="recipe : ${recipes}">
+    <div class="row">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-10" >
+            <h3 class="text-warning">
+                <a class="text-decoration-none text-white" th:href="@{/recipes/viewRecipe/{recipeId}(recipeId=${recipe.recipeId})}" th:text="${recipe.recipeName}"></a>
+            </h3>
+            <h5 class="text-secondary" th:text="${recipe.recipeDescription}"></h5>
+            <br>
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
+</div>
 
 </body>
 </html>
