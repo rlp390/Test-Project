@@ -12,11 +12,13 @@ public class ViewRecipeIngredientList {
     private String ingredientName;
     private String ingredientAmount;
     private RecipeUOM recipeUOM;
+    private int recipeIngredientId;
 
-    public ViewRecipeIngredientList(String ingredientName, String ingredientAmount, RecipeUOM recipeUOM) {
+    public ViewRecipeIngredientList(String ingredientName, String ingredientAmount, RecipeUOM recipeUOM, int recipeIngredientId) {
         this.ingredientName = ingredientName;
         this.ingredientAmount = ingredientAmount;
         this.recipeUOM = recipeUOM;
+        this.recipeIngredientId = recipeIngredientId;
     }
 
     public String getIngredientName() {
@@ -31,13 +33,15 @@ public class ViewRecipeIngredientList {
         return recipeUOM;
     }
 
+    public int getRecipeIngredientId() { return recipeIngredientId; }
+
     public static List<ViewRecipeIngredientList> findRecipeIngredientsByRecipeId(int recipeId, Iterable<RecipeIngredient> recipeIngredientIterable, Iterable<Ingredient> ingredientIterable) {
         List<ViewRecipeIngredientList> recipeIngredients = new ArrayList<ViewRecipeIngredientList>();
         for(RecipeIngredient rec : recipeIngredientIterable) {
             if(rec.getRecipeId() == recipeId) {
                 for(Ingredient ing : ingredientIterable) {
                     if(rec.getIngredientId() == ing.getIngredientId()) {
-                        recipeIngredients.add(new ViewRecipeIngredientList(ing.getIngredientName(),rec.getIngredientAmount(), rec.getIngredientUOM()));
+                        recipeIngredients.add(new ViewRecipeIngredientList(ing.getIngredientName(),rec.getIngredientAmount(), rec.getIngredientUOM(), rec.getRecipeIngredientId()));
                     }
                 }
             }

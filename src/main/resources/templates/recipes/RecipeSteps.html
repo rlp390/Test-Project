@@ -13,21 +13,8 @@
             <h4 class="text-white" th:text="${recipe.recipeDescription}"></h4>
         </div>
         <div class="row">
-            <div class="col-sm-3 border border-white rounded m-2 text-white">
-                <form method="post" th:action="@{/recipes/removeRecipeIngredients/{ID}(ID=${recipe.recipeId})}">
-                    <th:block th:each="ingredient : ${recipeIngredients}">
-                        <input class="form-check-label" name="recipeIngredientIds" type="checkbox"
-                               th:text="${' ' + ingredient.ingredientAmount + ' ' + ingredient.recipeUOM.displayName + ' ' + ingredient.ingredientName}"
-                               th:value="${ingredient.recipeIngredientId}"></input>
-                        <br>
-                    </th:block>
-                    <br>
-                    <div class="text-center">
-                        <input type="submit" class="btn btn-secondary" value="Remove Ingredients">
-                        <br>
-                    </div>
-                    <br>
-                </form>
+            <div class="col-sm-3 border border-white rounded m-2">
+                <p class="text-white" th:each="ingredient : ${recipeIngredients}" th:text="${ingredient.ingredientAmount + ' ' + ingredient.recipeUOM.displayName + ' ' + ingredient.ingredientName}"></p>
             </div>
             <div class="col border border-white rounded m-2">
                 <p class="text-white" >Recipe Steps go in this div!</p>

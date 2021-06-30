@@ -25,7 +25,8 @@ public class AuthenticationFilter extends HandlerInterceptorAdapter {
 
     private static boolean isWhitelisted(String path) {
         for (String pathRoot : whitelist) {
-            if (path.equals(pathRoot)) {
+            //if (path.equals(pathRoot)) {
+            if (path.startsWith(pathRoot)) {
                 return true;
             }
         }

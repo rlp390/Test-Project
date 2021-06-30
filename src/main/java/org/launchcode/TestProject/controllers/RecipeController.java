@@ -74,10 +74,10 @@ public class RecipeController extends AbstractController {
 
         // CHECK TO SEE IF INGREDIENT ALREADY EXISTS
         for(Ingredient ingredient : ingredients) {
-            System.out.println("CHECK INGREDIENT");
             if(ingredient.getIngredientName().equals(ingredientName)) {
 
-                System.out.println("INGREDIENT ALREADY EXISTS");
+                // INGREDIENT ALREADY EXISTS
+
                 model.addAttribute("title", "El Addo de Ingredientio!");
                 model.addAttribute("username", returnLoginName(request));
                 model.addAttribute("login", returnLoginURL(request));
@@ -107,10 +107,12 @@ public class RecipeController extends AbstractController {
 
     @GetMapping("editIngredient")
     public String editIngredientHome(Model model, HttpServletRequest request) {
+        List<Ingredient> ingredients = Ingredient.sortIngredientsList(ingredientRepository.findAll());
+
         model.addAttribute("title", "El Edito de Ingredientio!");
         model.addAttribute("username", returnLoginName(request));
         model.addAttribute("login", returnLoginURL(request));
-        model.addAttribute("ingredients", ingredientRepository.findAll());
+        model.addAttribute("ingredients", ingredients);
 
         return "/recipes/editIngredient";
     }
@@ -188,12 +190,16 @@ public class RecipeController extends AbstractController {
 
         List<Ingredient> ingredients = Ingredient.sortIngredientsList(ingredientRepository.findAll());
 
+        List<ViewRecipeIngredientList> recipeIngredients = ViewRecipeIngredientList.findRecipeIngredientsByRecipeId(recipeId, recipeIngredientRepository.findAll(),
+                ingredientRepository.findAll());
+
         model.addAttribute("title", "El Recipio de Addo Ingredientio!");
         model.addAttribute("username", returnLoginName(request));
         model.addAttribute("login", returnLoginURL(request));
         model.addAttribute("recipe", recipe);
         model.addAttribute("UOM", RecipeUOM.values());
         model.addAttribute("ingredients", ingredients);
+        model.addAttribute("recipeIngredients",recipeIngredients);
 
         return "/recipes/RecipeIngredients";
     }
@@ -223,5 +229,14 @@ public class RecipeController extends AbstractController {
         model.addAttribute("recipeIngredients",recipeIngredients);
 
         return "/recipes/viewRecipe";
+    }
+
+    @PostMapping("removeRecipeIngredients/{recipeId}")
+    public String processRemoveRecipeIngredients(@PathVariable int recipeId, @RequestParam(required = false) List<Integer> recipeIngredientIds) {
+        if(!recipeIngredientIds.equals(null) && !recipeIngredientIds.isEmpty()) {
+            recipeIngredientRepository.deleteAllById(recipeIngredientIds);
+        }
+
+        return "redirect:/recipes/RecipeIngredients/" + String.valueOf(recipeId);
     }
 }
