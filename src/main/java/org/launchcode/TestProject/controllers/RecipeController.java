@@ -45,8 +45,6 @@ public class RecipeController extends AbstractController {
         model.addAttribute("title", "El Loggo de Recipio!");
         model.addAttribute("username", returnLoginName(request));
         model.addAttribute("login", returnLoginURL(request));
-        //model.addAttribute("ingredients", ingredientRepository.findAll());
-        //model.addAttribute("recipeIngredients", recipeIngredientRepository.findAll());
         model.addAttribute("recipes", recipeRepository.findAll());
 
         return "recipes/index";
@@ -260,5 +258,40 @@ public class RecipeController extends AbstractController {
         }
 
         return "redirect:/recipes/RecipeIngredients/" + String.valueOf(recipeId);
+    }
+
+    @GetMapping("editRecipes")
+    public String editRecipesHome(Model model,HttpServletRequest request) {
+        model.addAttribute("title", "El Editio de Recipio!");
+        model.addAttribute("username", returnLoginName(request));
+        model.addAttribute("login", returnLoginURL(request));
+        model.addAttribute("recipes", recipeRepository.findAll());
+
+        return "recipes/editRecipes";
+    }
+
+    @GetMapping("deleteRecipe/{recipeId}")
+    public String processDeleteRecipe(@PathVariable int recipeId) {
+
+        // CLEAR ANY RECIPE STEPS THAT REFERENCE THE RECIPE
+        Iterable<RecipeSteps> recipeSteps = recipeStepsRepository.findByRecipeId(recipeId);
+        List<Integer> recipeStepIds = new ArrayList<Integer>();
+        for(RecipeSteps step : recipeSteps) {
+            recipeStepIds.add(step.getId());
+        }
+        recipeStepsRepository.deleteAllById(recipeStepIds);
+
+        // CLEAR ANY RECIPE INGREDIENTS THAT REFERENCE THE RECIPE
+        Iterable<RecipeIngredient> recipeIngredients = recipeIngredientRepository.findByRecipeId(recipeId);
+        List<Integer> recipeIngredientIds = new ArrayList<Integer>();
+        for(RecipeIngredient ingredient : recipeIngredients) {
+            recipeIngredientIds.add(ingredient.getRecipeIngredientId());
+        }
+        recipeIngredientRepository.deleteAllById(recipeIngredientIds);
+
+        // CLEAR THE RECIPE
+        recipeRepository.deleteById(recipeId);
+
+        return "redirect:/recipes/editRecipes";
     }
 }

@@ -24,7 +24,7 @@ public class PlantController extends AbstractController{
     @Autowired
     private PlantRepository plantRepository;
 
-        @RequestMapping("")
+    @RequestMapping("")
     public String plants(Model model, HttpServletRequest request) {
 
         model.addAttribute("username", returnLoginName(request));

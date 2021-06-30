@@ -8,7 +8,7 @@
 <th:block th:each="recipe : ${recipes}">
     <div class="row align-items-center">
         <div class="col-sm-1 text-center">
-            <a th:href="@{/recipes/viewRecipe/{ID}(ID=${recipe.recipeId})}" class="btn btn-secondary">See Details</a>
+            <a th:href="@{/recipes/RecipeIngredients/{ID}(ID=${recipe.recipeId})}" class="btn btn-secondary">Edit</a>
         </div>
         <div class="col-sm-10 border border-secondary rounded">
             <div class="row m-2 align-items-center">
@@ -18,7 +18,9 @@
                 </div>
             </div>
         </div>
-        <div class="col-sm-1 text-center"></div>
+        <div class="col-sm-1 text-center">
+            <a th:href="@{/recipes/deleteRecipe/{ID}(ID=${recipe.recipeId})}" class="btn btn-warning" onclick="return confirm('Confirm ingredient deletion.  This action cannot be undone!')">Delete</a>
+        </div>
     </div>
     <br>
     <br>
