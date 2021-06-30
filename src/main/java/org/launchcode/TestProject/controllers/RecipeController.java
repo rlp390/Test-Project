@@ -1,12 +1,9 @@
 package org.launchcode.TestProject.controllers;
 
 
+import org.launchcode.TestProject.models.Recipes.*;
 import org.launchcode.TestProject.models.Recipes.Enums.IngredientType;
 import org.launchcode.TestProject.models.Recipes.Enums.RecipeUOM;
-import org.launchcode.TestProject.models.Recipes.Ingredient;
-import org.launchcode.TestProject.models.Recipes.Recipe;
-import org.launchcode.TestProject.models.Recipes.RecipeIngredient;
-import org.launchcode.TestProject.models.Recipes.ViewRecipeIngredientList;
 import org.launchcode.TestProject.models.data.recipes.IngredientRepository;
 import org.launchcode.TestProject.models.data.recipes.RecipeIngredientRepository;
 import org.launchcode.TestProject.models.data.recipes.RecipeRepository;
@@ -15,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -200,13 +198,17 @@ public class RecipeController extends AbstractController {
         model.addAttribute("UOM", RecipeUOM.values());
         model.addAttribute("ingredients", ingredients);
         model.addAttribute("recipeIngredients",recipeIngredients);
+        model.addAttribute("recipeSteps", recipeStepsRepository.findByRecipeId(recipeId));
 
         return "/recipes/RecipeIngredients";
     }
 
     @PostMapping("RecipeIngredients/{recipeId}")
-    public String processAddRecipeIngredient(@PathVariable int recipeId, @RequestParam Float ingredientAmount, @RequestParam RecipeUOM ingredientUOM,
+    public String processAddRecipeIngredient(@PathVariable int recipeId, @RequestParam(required = false) Float ingredientAmount, @RequestParam RecipeUOM ingredientUOM,
                                              @RequestParam int ingredientId) {
+
+        if(ingredientAmount == null) return "redirect:/recipes/RecipeIngredients/" + recipeId;
+
         RecipeIngredient recipeIngredient = new RecipeIngredient(recipeId, ingredientId, ingredientAmount.toString(), ingredientUOM);
         recipeIngredientRepository.save(recipeIngredient);
 
@@ -219,22 +221,42 @@ public class RecipeController extends AbstractController {
         Optional optionalRecipe = recipeRepository.findById(recipeId);
         Recipe recipe = (Recipe) optionalRecipe.get();
 
-        List<ViewRecipeIngredientList> recipeIngredients = ViewRecipeIngredientList.findRecipeIngredientsByRecipeId(recipeId, recipeIngredientRepository.findAll(),
+        List<ViewRecipeIngredientList> recipeIngredients = ViewRecipeIngredientList.findRecipeIngredientsByRecipeId(recipeId, recipeIngredientRepository.findByRecipeId(recipeId),
                 ingredientRepository.findAll());
+
 
         model.addAttribute("title", "El Recipio de Addo Ingredientio!");
         model.addAttribute("username", returnLoginName(request));
         model.addAttribute("login", returnLoginURL(request));
         model.addAttribute("recipe", recipe);
         model.addAttribute("recipeIngredients",recipeIngredients);
+        model.addAttribute("recipeSteps", recipeStepsRepository.findByRecipeId(recipeId));
 
         return "/recipes/viewRecipe";
     }
 
     @PostMapping("removeRecipeIngredients/{recipeId}")
     public String processRemoveRecipeIngredients(@PathVariable int recipeId, @RequestParam(required = false) List<Integer> recipeIngredientIds) {
-        if(!recipeIngredientIds.equals(null) && !recipeIngredientIds.isEmpty()) {
+        if(recipeIngredientIds != null && !recipeIngredientIds.isEmpty()) {
             recipeIngredientRepository.deleteAllById(recipeIngredientIds);
+        }
+
+        return "redirect:/recipes/RecipeIngredients/" + String.valueOf(recipeId);
+    }
+
+    @PostMapping("addRecipeStep/{recipeId}")
+    public String processAddRecipeStep(@PathVariable int recipeId, @RequestParam String recipeStepText) {
+        if(recipeStepText == "") return "redirect:/recipes/RecipeIngredients/" + String.valueOf(recipeId);
+
+        recipeStepsRepository.save(new RecipeSteps(recipeId, recipeStepText));
+
+        return "redirect:/recipes/RecipeIngredients/" + String.valueOf(recipeId);
+    }
+
+    @PostMapping("removeRecipeSteps/{recipeId}")
+    public String processRemoveSteps(@PathVariable int recipeId, @RequestParam(required = false) List<Integer> recipeStepIds) {
+        if(recipeStepIds != null && !recipeStepIds.isEmpty()) {
+            recipeStepsRepository.deleteAllById(recipeStepIds);
         }
 
         return "redirect:/recipes/RecipeIngredients/" + String.valueOf(recipeId);

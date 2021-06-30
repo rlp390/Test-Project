@@ -22,6 +22,8 @@ public class RecipeSteps {
         this.stepDirections = stepDirections;
     }
 
+    public RecipeSteps() {}
+
     public int getId() {
         return id;
     }

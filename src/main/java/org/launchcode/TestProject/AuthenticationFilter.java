@@ -31,8 +31,6 @@ public class AuthenticationFilter extends HandlerInterceptorAdapter {
             }
         }
 
-        System.out.println("path:" + path);
-
         return false;
     }
 

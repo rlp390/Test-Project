@@ -13,66 +13,92 @@
             <h4 class="text-white" th:text="${recipe.recipeDescription}"></h4>
         </div>
         <div class="row">
-            <div class="col-sm-3 border border-white rounded m-2 text-white">
+            <div class="col-sm-3 border border-white rounded m-2 text-white position-relative">
                 <form method="post" th:action="@{/recipes/removeRecipeIngredients/{ID}(ID=${recipe.recipeId})}">
                     <th:block th:each="ingredient : ${recipeIngredients}">
                         <input class="form-check-label" name="recipeIngredientIds" type="checkbox"
                                th:text="${' ' + ingredient.ingredientAmount + ' ' + ingredient.recipeUOM.displayName + ' ' + ingredient.ingredientName}"
-                               th:value="${ingredient.recipeIngredientId}"></input>
+                               th:value="${ingredient.recipeIngredientId}">
                         <br>
                     </th:block>
                     <br>
                     <div class="text-center">
-                        <input type="submit" class="btn btn-secondary" value="Remove Ingredients">
-                        <br>
+                        <input type="submit" class="btn btn-secondary" value="Remove Ingredient(s)">
                     </div>
                     <br>
                 </form>
             </div>
-            <div class="col border border-white rounded m-2">
-                <p class="text-white" >Recipe Steps go in this div!</p>
+            <div class="col border border-white rounded m-2 text-white position-relative">
+                <form method="post" th:action="@{/recipes/removeRecipeSteps/{ID}(ID=${recipe.recipeId})}">
+                    <th:block th:each="step : ${recipeSteps}">
+                        <input class="form-check-label" name="recipeStepIds" type="checkbox" th:text="${' ' + step.stepDirections}" th:value="${step.id}">
+                        <br>
+                    </th:block>
+                    <br>
+                    <div class="text-center">
+                        <input type="submit" class="btn btn-secondary" value="Remove Step(s)">
+                    </div>
+                    <br>
+                </form>
             </div>
         </div>
-
     </div>
     <div class="col-sm-1"></div>
 </div>
 
-<div class="row align-items-center">
-    <div class="col-sm text-center">
-    </div>
-    <div class="col-sm-5 border border-white rounded text-center m-2">
-        <form method="post">
-            <div class="row justify-content-md-center">
-                <div class="col-sm-2 form-group">
-                    <label for="ingredientAmount" class="text-white">Amount</label>
-                    <input type="number"  step="any" class="form-control bg-secondary text-white" id="ingredientAmount" name="ingredientAmount"/>
+<div class="row">
+    <div class="col-sm-1"></div>
+    <div class="col-sm-10">
+        <div class="row">
+            <div class="col-sm-3 border border-white rounded text-center m-2">
+                <form method="post">
+                    <div class="row">
+                        <div class="col-sm form-group">
+                            <label for="ingredientAmount" class="text-white">Amount</label>
+                            <input type="number"  step="any" class="form-control bg-secondary text-white" id="ingredientAmount" name="ingredientAmount"/>
+                            <br>
+                        </div>
+                        <div class="col-sm form-group">
+                            <label for="ingredientUOM" class="text-white">UOM</label>
+                            <select class="form-control bg-secondary text-white" id="ingredientUOM" name="ingredientUOM">
+                                <option th:each="U : ${UOM}" th:value="${U}" th:text="${U.displayName}"></option>
+                            </select>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm form-group">
+                            <label for="ingredientId" class="text-white">Ingredient</label>
+                            <select class="form-control bg-secondary text-white" id="ingredientId" name="ingredientId">
+                                <option th:each="ingredient : ${ingredients}" th:value="${ingredient.ingredientId}" th:text="${ingredient.ingredientName}"></option>
+                            </select>
+                            <br>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" value="Add Ingredient" class="btn btn-secondary">
+                        <a href="/recipes/addIngredient" class="btn btn-secondary">Create Ingredient</a>
+                    </div>
                     <br>
-                </div>
-                <div class="col-sm-2 form-group">
-                    <label for="ingredientUOM" class="text-white">UOM</label>
-                    <select class="form-control bg-secondary text-white" id="ingredientUOM" name="ingredientUOM">
-                        <option th:each="U : ${UOM}" th:value="${U}" th:text="${U.displayName}"></option>
-                    </select>
-                    <br>
-                </div>
-                <div class="col-sm form-group">
-                    <label for="ingredientId" class="text-white">Ingredient</label>
-                    <select class="form-control bg-secondary text-white" id="ingredientId" name="ingredientId">
-                        <option th:each="ingredient : ${ingredients}" th:value="${ingredient.ingredientId}" th:text="${ingredient.ingredientName}"></option>
-                    </select>
-                    <br>
-                </div>
+                </form>
             </div>
-            <div class="text-center">
-                <input type="submit" value="Add Ingredient" class="btn btn-secondary">
-                <a href="/recipes/addIngredient" class="btn btn-secondary">Create Ingredient</a>
+            <div class="col border border-white rounded m-2 text-white position-relative">
+                <form method="post" th:action="@{/recipes/addRecipeStep/{ID}(ID=${recipe.recipeId})}">
+                    <div class="row">
+                        <div class="col-sm form-group">
+                            <label for="recipeStepText" class="text-white">Enter next step:</label>
+                            <input type="text" id="recipeStepText" name="recipeStepText" class="form-control bg-secondary text-white">
+                            <br>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <input type="submit" value="Add Step" class="btn btn-secondary">
+                    </div>
+                </form>
             </div>
-            <br>
-        </form>
+        </div>
     </div>
-    <div class="col-sm text-center">
-    </div>
+    <div class="col-sm-1"></div>
 </div>
 </body>
 </html>

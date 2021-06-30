@@ -22,7 +22,6 @@ public class AbstractController {
             str = "Logged in as " + user.getUsername() + " | ";
         }
 
-        System.out.println("Str:  " + str);
         return str;
     }
 
@@ -37,7 +36,6 @@ public class AbstractController {
             str = "Logout";
         }
 
-        System.out.println("Str:  " + str);
         return str;
     }
 }
